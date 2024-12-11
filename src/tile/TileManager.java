@@ -8,15 +8,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.SQLOutput;
 
 public class TileManager {
     GamePanel gamePanel;
-    Tile[] tile;
-    int mapTileNumber[][];
+    public Tile[] tile;
+    public int mapTileNumber[][];
 
     public TileManager(GamePanel gamePanel){
         this.gamePanel = gamePanel;
-        tile = new Tile[30];
+        tile = new Tile[1000];
         mapTileNumber = new int[gamePanel.maxWorldColumn][gamePanel.maxWorldRow];
 
         getTileImage();
@@ -27,9 +28,113 @@ public class TileManager {
         try {
             tile[0] = new Tile();
             tile[0].image = ImageIO.read(getClass().getResourceAsStream("/tiles/GRASS2.png"));
+            tile[0].collision = false;
 
             tile[1] = new Tile();
             tile[1].image = ImageIO.read(getClass().getResourceAsStream("/tiles/brickk.png"));
+            tile[1].collision = true;
+
+            tile[2] = new Tile();
+            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/tiles/chunks/chunk_0_0.png"));
+            tile[2].collision = false;
+
+            tile[3] = new Tile();
+            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/tiles/chunks/chunk_0_16.png"));
+            tile[3].collision = false;
+
+            tile[4] = new Tile();
+            tile[4].image = ImageIO.read(getClass().getResourceAsStream("/tiles/chunks/chunk_16_0.png"));
+            tile[4].collision = false;
+
+            tile[5] = new Tile();
+            tile[5].image = ImageIO.read(getClass().getResourceAsStream("/tiles/chunks/chunk_16_16.png"));
+            tile[5].collision = false;
+
+            tile[6] = new Tile();
+            tile[6].image = ImageIO.read(getClass().getResourceAsStream("/tiles/chunks/chunk_32_0.png"));
+            tile[6].collision = false;
+
+            tile[7] = new Tile();
+            tile[7].image = ImageIO.read(getClass().getResourceAsStream("/tiles/chunks/chunk_32_16.png"));
+            tile[7].collision = false;
+
+            tile[8] = new Tile();
+            tile[8].image = ImageIO.read(getClass().getResourceAsStream("/tiles/chunks/chunk_48_0.png"));
+            tile[8].collision = false;
+
+            tile[9] = new Tile();
+            tile[9].image = ImageIO.read(getClass().getResourceAsStream("/tiles/chunks/chunk_48_16.png"));
+            tile[9].collision = false;
+
+            tile[10] = new Tile();
+            tile[10].image = ImageIO.read(getClass().getResourceAsStream("/tiles/chunks/chunk_64_0.png"));
+            tile[10].collision = false;
+
+            tile[11] = new Tile();
+            tile[11].image = ImageIO.read(getClass().getResourceAsStream("/tiles/chunks/chunk_64_16.png"));
+            tile[11].collision = false;
+
+            tile[12] = new Tile();
+            tile[12].image = ImageIO.read(getClass().getResourceAsStream("/tiles/chunks/chunk_80_0.png"));
+            tile[12].collision = false;
+
+            tile[13] = new Tile();
+            tile[13].image = ImageIO.read(getClass().getResourceAsStream("/tiles/chunks/chunk_80_16.png"));
+            tile[13].collision = false;
+//
+            tile[14] = new Tile();
+            tile[14].image = ImageIO.read(getClass().getResourceAsStream("/tiles/wall.png"));
+            tile[14].collision = true;
+
+//            tile[15] = new Tile();
+//            tile[15].image = ImageIO.read(getClass().getResourceAsStream("/tiles/chunks/chunk_64_16.png"));
+//            tile[15].collision = false;
+
+            int xFile = 0;
+            int xNum = 1;
+            int yFile = 0;
+            int yNum = 1;
+            int tileNumber = 16;
+            while(true){
+
+
+                tile[tileNumber] = new Tile();
+                String fileName= "/tiles/STD/std_"+String.valueOf(yFile)+"_"+String.valueOf(xFile)+".png";
+
+                tile[tileNumber].image = ImageIO.read(getClass().getResourceAsStream( fileName));
+                tile[tileNumber].collision = true;
+
+
+                xNum++;
+                xFile+= 16;
+                tileNumber++;
+                if(xNum > 5){
+
+                    yFile+=16;
+                    xNum = 1;
+                    xFile = 0;
+
+                    yNum++;
+
+                }
+
+
+
+                if(yNum > 14){
+
+                    break;
+                }
+
+            }
+
+            tile[86] = new Tile();
+            tile[86].image = ImageIO.read(getClass().getResourceAsStream("/tiles/roof.png"));
+            tile[86].collision = false;
+
+// Continue this pattern until you've added all needed chunks...
+
+
+
 
 //            tile[2] = new Tile();
 //            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/tiles/grass.png"));
@@ -40,16 +145,16 @@ public class TileManager {
 
     public void loadMap(){
         try {
-            InputStream inputStream = getClass().getResourceAsStream("/maps/maps_01.txt");
+            InputStream inputStream = getClass().getResourceAsStream("/maps/maps_03.txt");
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
             int column = 0;
             int row = 0;
 
-            while(column < gamePanel.maxScreenColumn && row < gamePanel.maxScreenColumn){
+            while(column < gamePanel.maxWorldRow && row < gamePanel.maxWorldColumn){
                 String line = bufferedReader.readLine();
 
-                while (column < gamePanel.maxScreenColumn){
+                while (column < gamePanel.maxWorldColumn){
                     String numbers[] = line.split(" ");
                     int number = Integer.parseInt(numbers[column]);
 
@@ -57,7 +162,7 @@ public class TileManager {
                     column++;
                 }
 
-                if(column == gamePanel.maxScreenColumn){
+                if(column == gamePanel.maxWorldColumn){
                     column = 0;
                     row++;
                 }
@@ -108,16 +213,13 @@ public class TileManager {
             int tileNumber = mapTileNumber[worldColumn][worldRow];
             worldColumn++;
 
-            if (
-                    worldY + gamePanel.tileSize > gamePanel.player.worldY - gamePanel.player.screenY &&
-                    worldY - gamePanel.tileSize < gamePanel.player.worldY + gamePanel.player.screenY){
+
                 graphics2D.drawImage(tile[tileNumber].image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
-            }
 
 
             if(worldColumn == gamePanel.maxWorldColumn){
                 worldColumn = 0;
-                System.out.println(worldColumn);
+
                 worldRow++;
             }
 

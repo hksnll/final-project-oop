@@ -15,6 +15,8 @@ public class Player extends Entity{
 
     public final int screenX;
     public final int screenY;
+    int hasKey = 0;
+    public int lives;
 
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler){
@@ -24,15 +26,20 @@ public class Player extends Entity{
         screenX = gamePanel.screenWidth / 2 - (gamePanel.tileSize / 2);
         screenY = gamePanel.screenHeight / 2 - (gamePanel.tileSize / 2);
 
-        solidArea = new Rectangle(0, 0, 16, 32);
+        solidArea = new Rectangle(0, 0, 24, 32);
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+
         setDefaultValues();
         getPlayerImage();
+
+        this.lives = 3;
 
     }
 
     public void setDefaultValues(){
-        worldX = gamePanel.tileSize * 7;
-        worldY = gamePanel.tileSize * 8;
+        worldX = gamePanel.tileSize * 13;
+        worldY = gamePanel.tileSize * 13;
         speed = 4;
         direction = "down";
 
@@ -58,20 +65,45 @@ public class Player extends Entity{
         if (keyHandler.upPressed == true || keyHandler.downPressed == true || keyHandler.leftPressed == true || keyHandler.rightPressed == true){
             if(keyHandler.upPressed){
                 direction = "up";
-                worldY -= speed;
+
             } else if(keyHandler.downPressed){
                 direction = "down";
-                worldY += speed;
+
             } else if (keyHandler.rightPressed) {
                 direction = "right";
-                worldX += speed;
+
             } else if (keyHandler.leftPressed) {
                 direction = "left";
-                worldX -= speed;
+
             }
 
+            // CHECK TILE COLLISION
             collisionOn =  false;
             gamePanel.collisionChecker.checkTile(this);
+
+            int objectIndex = gamePanel.collisionChecker.checkObject(this, true);
+            pickUpObject(objectIndex);
+
+            // IF COLLISION IS FALSE, PLAYER CAN MOVE
+            if (collisionOn == false){
+
+                switch (direction){
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
+            }
+
+
             spriteCounter++;
             if(spriteCounter > 10){
                 if(spriteNumber == 1){
@@ -83,6 +115,31 @@ public class Player extends Entity{
             }
         }
 
+
+    }
+
+    public void pickUpObject(int i){
+        if (i != 999){
+            String objectName = gamePanel.object[i].name;
+
+            switch (objectName){
+                case "Key":
+                    hasKey++;
+                    gamePanel.ui.showMessage("You got a Key!");
+                    gamePanel.object[i] = null;
+                    break;
+                case "Door":
+                    if(hasKey > 0){
+                        gamePanel.playSE(1);
+                        gamePanel.object[i] = null;
+                        hasKey--;
+                        System.out.println("Key: " + hasKey);
+                    } else {
+                        System.out.println("You need a key to open the door!");
+                    }
+                    break;
+            }
+        }
 
     }
 
@@ -131,3 +188,5 @@ public class Player extends Entity{
         graphics2D.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
     }
 }
+
+
