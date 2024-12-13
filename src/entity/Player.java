@@ -17,7 +17,7 @@ public class Player extends Entity{
     public final int screenY;
     int hasKey = 0;
     public int lives;
-    int enterDoor = 0;
+    int enterRoute = 0;
 
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler){
@@ -141,20 +141,68 @@ public class Player extends Entity{
                     }
                     break;
                 case "CEIT Door":
-                    if(enterDoor == 8){
+                    if(enterRoute == 8){
                         teleportPlayer(9, 44);
-                        enterDoor = 0;
+                        enterRoute = 0;
                     }
-                    System.out.println(enterDoor);
-                    enterDoor++;
+
+                    enterRoute++;
                     break;
                 case "CEIT Door Exit":
-                    if(enterDoor == 8){
+                    if(enterRoute == 8){
                         teleportPlayer(29, 17);
-                        enterDoor = 0;
+                        enterRoute = 0;
                     }
-                    System.out.println(enterDoor);
-                    enterDoor++;
+
+                    enterRoute++;
+                    break;
+                case "Stair 1":
+                    if(enterRoute == 8){
+
+                        teleportPlayer(30, 8);
+                        gamePanel.tileManager.changeMap(2);
+                        gamePanel.asssetSetter.removeObject();
+                        gamePanel.asssetSetter.setObject();
+                        enterRoute = 0;
+                    }
+
+                    enterRoute++;
+                    break;
+                case "Stair 2":
+                    if(enterRoute == 8){
+                        teleportPlayer(30, 44);
+                        gamePanel.tileManager.changeMap(0);
+                        gamePanel.asssetSetter.removeObject();
+                        gamePanel.asssetSetter.setObject();
+                        enterRoute = 0;
+                    }
+                    enterRoute++;
+                    break;
+                case "CR":
+                    if(enterRoute == 8){
+
+                        teleportPlayer(9, 25);
+                        gamePanel.tileManager.changeMap(2);
+                        enterRoute = 0;
+                        gamePanel.asssetSetter.removeObject();
+                        gamePanel.asssetSetter.setObject();
+                        enterRoute++;
+                        break;
+                    }
+                    enterRoute++;
+                    break;
+                case "CR Exit":
+                    if(enterRoute == 8){
+
+                        teleportPlayer(21, 44);
+                        gamePanel.tileManager.changeMap(0);
+                        enterRoute = 0;
+                        gamePanel.asssetSetter.removeObject();
+                        gamePanel.asssetSetter.setObject();
+                        enterRoute++;
+                        break;
+                    }
+                    enterRoute++;
                     break;
             }
         }

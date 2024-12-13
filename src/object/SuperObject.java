@@ -36,6 +36,10 @@ public class SuperObject {
             this.worldY = 999;
             this.worldX = 999;
         }
+
+    }
+    public void setName(String name){
+        this.name = name;
     }
 }
 

@@ -12,7 +12,7 @@ import java.sql.SQLOutput;
 
 public class TileManager {
     GamePanel gamePanel;
-    public int mapNumber = 0;
+    public int mapNumber;
     public Tile[] tile;
     public int mapTileNumber[][];
 
@@ -20,7 +20,7 @@ public class TileManager {
         this.gamePanel = gamePanel;
         tile = new Tile[1000];
         mapTileNumber = new int[gamePanel.maxWorldColumn][gamePanel.maxWorldRow];
-
+        mapNumber = 0;
         getTileImage();
         loadMap();
     }
@@ -176,9 +176,41 @@ public class TileManager {
             tile[97].image = ImageIO.read(getClass().getResourceAsStream("/tiles/Elevator/Elevator_16_16.png"));
             tile[97].collision = true;
 
-            tile[97] = new Tile();
-            tile[97].image = ImageIO.read(getClass().getResourceAsStream("/tiles/Elevator/Elevator_16_16.png"));
-            tile[97].collision = true;
+            tile[98] = new Tile();
+            tile[98].image = ImageIO.read(getClass().getResourceAsStream("/tiles/stairs/stairs_0_0.png"));
+            tile[98].collision = false;
+
+            tile[99] = new Tile();
+            tile[99].image = ImageIO.read(getClass().getResourceAsStream("/tiles/stairs/stairs_16_0.png"));
+            tile[99].collision = false;
+
+            tile[100] = new Tile();
+            tile[100].image = ImageIO.read(getClass().getResourceAsStream("/tiles/Woman Sign.png"));
+            tile[100].collision = false;
+
+            tile[101] = new Tile();
+            tile[101].image = ImageIO.read(getClass().getResourceAsStream("/tiles/Man Sign.png"));
+            tile[101].collision = false;
+
+            tile[102] = new Tile();
+            tile[102].image = ImageIO.read(getClass().getResourceAsStream("/tiles/CR Entrance.png"));
+            tile[102].collision = true;
+
+            tile[103] = new Tile();
+            tile[103].image = ImageIO.read(getClass().getResourceAsStream("/tiles/CR Entrance down.png"));
+            tile[103].collision = false;
+
+            tile[104] = new Tile();
+            tile[104].image = ImageIO.read(getClass().getResourceAsStream("/tiles/CR Entrance.png"));
+            tile[104].collision = false;
+
+            tile[105] = new Tile();
+            tile[105].image = ImageIO.read(getClass().getResourceAsStream("/tiles/CR CUBICLE/CR CUBICLE_0_0.png"));
+            tile[105].collision = true;
+
+            tile[106] = new Tile();
+            tile[106].image = ImageIO.read(getClass().getResourceAsStream("/tiles/CR CUBICLE/CR CUBICLE_0_16.png"));
+            tile[106].collision = true;
 // Continue this pattern until you've added all needed chunks...
 
 
@@ -193,17 +225,20 @@ public class TileManager {
 
     public void loadMap(){
         try {
-            InputStream inputStream = getClass().getResourceAsStream("/maps/modified_grid.txt");;
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            if(mapNumber == 0){
+            InputStream inputStream = getClass().getResourceAsStream("/maps/modified_grid.txt");
 
+            BufferedReader bufferedReader = null;
+            if(mapNumber == 0){
                  inputStream = getClass().getResourceAsStream("/maps/modified_grid.txt");
                  bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             } else if (mapNumber == 1){
-                 inputStream = getClass().getResourceAsStream("/maps/maps_03.txt");
-                 bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                inputStream = getClass().getResourceAsStream("/maps/maps2.txt");
+                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            } else if (mapNumber == 2){
+                inputStream = getClass().getResourceAsStream("/maps/map2.txt");
+                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             }
-
+            System.out.println(mapNumber);
 
 
             int column = 0;
@@ -290,6 +325,9 @@ public class TileManager {
     }
     public void changeMap(int mapNumber){
         this.mapNumber = mapNumber;
+
+        this.loadMap();
+
     }
 }
 
