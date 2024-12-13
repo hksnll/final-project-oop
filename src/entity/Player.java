@@ -18,6 +18,10 @@ public class Player extends Entity{
     int hasKey = 0;
     public int lives;
     int enterRoute = 0;
+    public boolean alarmRing = false;
+    public boolean isAllowed;
+    public int trashCount = 0;
+    public boolean hasKey2 = false;
 
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler){
@@ -35,6 +39,8 @@ public class Player extends Entity{
         getPlayerImage();
 
         this.lives = 3;
+
+        this.isAllowed = false;
 
     }
 
@@ -174,22 +180,26 @@ public class Player extends Entity{
                         gamePanel.tileManager.changeMap(0);
                         gamePanel.asssetSetter.removeObject();
                         gamePanel.asssetSetter.setObject();
-                        enterRoute = 0;
+
                     }
                     enterRoute++;
                     break;
                 case "CR":
-                    if(enterRoute == 8){
+                    if (isAllowed == true) {
+                        if(enterRoute > 8){
 
-                        teleportPlayer(9, 25);
-                        gamePanel.tileManager.changeMap(2);
-                        enterRoute = 0;
-                        gamePanel.asssetSetter.removeObject();
-                        gamePanel.asssetSetter.setObject();
+                            teleportPlayer(9, 25);
+                            gamePanel.tileManager.changeMap(2);
+                            enterRoute = 0;
+                            gamePanel.asssetSetter.removeObject();
+                            gamePanel.asssetSetter.setObject();
+
+                            break;
+                        }
                         enterRoute++;
-                        break;
                     }
-                    enterRoute++;
+                    else gamePanel.ui.showMessage("HEY, YOU! Males are not allowed here. Get out!");
+
                     break;
                 case "CR Exit":
                     if(enterRoute == 8){
@@ -199,7 +209,45 @@ public class Player extends Entity{
                         enterRoute = 0;
                         gamePanel.asssetSetter.removeObject();
                         gamePanel.asssetSetter.setObject();
-                        enterRoute++;
+
+                        break;
+                    }
+                    enterRoute++;
+                    break;
+                case "Electro Entrance":
+                    if(enterRoute == 8){
+
+                        teleportPlayer(9, 41);
+                        enterRoute = 0;
+
+                        break;
+                    }
+                    enterRoute++;
+                    break;
+                case "Alarm":
+                    if(alarmRing == false){
+                        gamePanel.playSE(1);
+                        setAllowed();
+                        alarmRing = true;
+                        break;
+                    }
+                    break;
+                case "Trash":
+                    if(trashCount < 160){
+                        gamePanel.ui.showMessage("Looks like there is something" +
+                                "in here...");
+
+                    } else {
+                        gamePanel.ui.showMessage("You've got a key!");
+                        hasKey2 = true;
+                    } trashCount++;
+                    break;
+                case "Electro Exit":
+                    if(enterRoute == 8){
+
+                        teleportPlayer(17, 8);
+                        enterRoute = 0;
+
                         break;
                     }
                     enterRoute++;
@@ -257,6 +305,9 @@ public class Player extends Entity{
     public void teleportPlayer(int x, int y){
         this.worldX = x * gamePanel.tileSize;
         this.worldY = y * gamePanel.tileSize;
+    }
+    public void setAllowed(){
+        this.isAllowed = true;
     }
 }
 

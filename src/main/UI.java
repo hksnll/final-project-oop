@@ -26,7 +26,7 @@ public class UI {
         this.gamePanel = gamePanel;
 
 
-        arial_40 = new Font("Arial", Font.PLAIN, 40);
+        arial_40 = new Font("Arial", Font.BOLD, 30);
 
     }
 
@@ -38,7 +38,7 @@ public class UI {
 
 
         graphics2D.setFont(arial_40);
-        graphics2D.setColor(Color.WHITE);
+        graphics2D.setColor(Color.GREEN);
 
         if (player.lives == 2){
             heart3.setLife(false);

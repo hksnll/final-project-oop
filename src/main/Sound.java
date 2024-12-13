@@ -11,7 +11,7 @@ public class Sound {
 
     public Sound(){
         soundURL[0] = getClass().getResource("/sounds/right.wav");
-        soundURL[1] = getClass().getResource("/sounds/alarm.wav");
+        soundURL[1] = getClass().getResource("/sounds/AMOGUS.wav");
     }
 
     public void setFile(int i){

@@ -211,6 +211,18 @@ public class TileManager {
             tile[106] = new Tile();
             tile[106].image = ImageIO.read(getClass().getResourceAsStream("/tiles/CR CUBICLE/CR CUBICLE_0_16.png"));
             tile[106].collision = true;
+
+            tile[107] = new Tile();
+            tile[107].image = ImageIO.read(getClass().getResourceAsStream("/tiles/ELECTRO DOOR/ELECTRO DOOR_0_0.png"));
+            tile[107].collision = false;
+
+            tile[108] = new Tile();
+            tile[108].image = ImageIO.read(getClass().getResourceAsStream("/tiles/ELECTRO DOOR/ELECTRO DOOR_0_16.png"));
+            tile[108].collision = false;
+
+            tile[109] = new Tile();
+            tile[109].image = ImageIO.read(getClass().getResourceAsStream("/tiles/MAZE BLOCK.png"));
+            tile[109].collision = true;
 // Continue this pattern until you've added all needed chunks...
 
 
