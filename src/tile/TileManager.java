@@ -175,6 +175,10 @@ public class TileManager {
             tile[97] = new Tile();
             tile[97].image = ImageIO.read(getClass().getResourceAsStream("/tiles/Elevator/Elevator_16_16.png"));
             tile[97].collision = true;
+
+            tile[97] = new Tile();
+            tile[97].image = ImageIO.read(getClass().getResourceAsStream("/tiles/Elevator/Elevator_16_16.png"));
+            tile[97].collision = true;
 // Continue this pattern until you've added all needed chunks...
 
 
