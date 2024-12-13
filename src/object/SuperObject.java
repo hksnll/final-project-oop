@@ -14,6 +14,7 @@ public class SuperObject {
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
     public  int solidDefaultAreaX = 0;
     public  int solidDefaultAreaY = 0;
+    public boolean isPickedUp = false;
 
     public void draw(Graphics2D graphics2D, GamePanel gamePanel){
         int screenX = worldX - gamePanel.player.worldX + gamePanel.player.screenX;
@@ -21,6 +22,20 @@ public class SuperObject {
 
         graphics2D.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
 
+    }
+
+    public SuperObject(){
+
+    }
+
+    public void setWorld(int x, int y){
+        if(this.isPickedUp == false){
+            this.worldX = x;
+            this.worldY = y;
+        } else {
+            this.worldY = 999;
+            this.worldX = 999;
+        }
     }
 }
 

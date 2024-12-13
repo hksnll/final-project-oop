@@ -21,8 +21,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     // WORLD SETTINGS
 
-    public final int maxWorldColumn = 50;
-    public final int maxWorldRow = 25;
+    public  int maxWorldColumn = 50;
+    public int maxWorldRow = 50;
     public final int worldWidth = tileSize * maxWorldColumn;
     public final int worldHeight = tileSize * maxWorldRow;
 
@@ -164,5 +164,9 @@ public class GamePanel extends JPanel implements Runnable {
     public void playSE(int i){
         soundEffect.setFile(i);
         soundEffect.play();
+    }
+    public void changeWorldSize(int column, int row){
+        this.maxWorldColumn = column;
+
     }
 }

@@ -12,6 +12,7 @@ import java.sql.SQLOutput;
 
 public class TileManager {
     GamePanel gamePanel;
+    public int mapNumber = 0;
     public Tile[] tile;
     public int mapTileNumber[][];
 
@@ -86,9 +87,9 @@ public class TileManager {
             tile[14].image = ImageIO.read(getClass().getResourceAsStream("/tiles/wall.png"));
             tile[14].collision = true;
 
-//            tile[15] = new Tile();
-//            tile[15].image = ImageIO.read(getClass().getResourceAsStream("/tiles/chunks/chunk_64_16.png"));
-//            tile[15].collision = false;
+            tile[15] = new Tile();
+            tile[15].image = ImageIO.read(getClass().getResourceAsStream("/tiles/chunks/chunk_64_16.png"));
+            tile[15].collision = false;
 
             int xFile = 0;
             int xNum = 1;
@@ -131,6 +132,22 @@ public class TileManager {
             tile[86].image = ImageIO.read(getClass().getResourceAsStream("/tiles/roof.png"));
             tile[86].collision = false;
 
+            tile[87] = new Tile();
+            tile[87].image = ImageIO.read(getClass().getResourceAsStream("/tiles/black.png"));
+            tile[87].collision = false;
+
+            tile[88] = new Tile();
+            tile[88].image = ImageIO.read(getClass().getResourceAsStream("/tiles/wal1l.png"));
+            tile[88].collision = false;
+
+            tile[89] = new Tile();
+            tile[89].image = ImageIO.read(getClass().getResourceAsStream("/tiles/floor.png"));
+            tile[89].collision = false;
+
+            tile[90] = new Tile();
+            tile[90].image = ImageIO.read(getClass().getResourceAsStream("/tiles/wal1l.png"));
+            tile[90].collision = true;
+
 // Continue this pattern until you've added all needed chunks...
 
 
@@ -145,8 +162,18 @@ public class TileManager {
 
     public void loadMap(){
         try {
-            InputStream inputStream = getClass().getResourceAsStream("/maps/maps_03.txt");
+            InputStream inputStream = getClass().getResourceAsStream("/maps/modified_grid.txt");;
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            if(mapNumber == 0){
+
+                 inputStream = getClass().getResourceAsStream("/maps/modified_grid.txt");
+                 bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            } else if (mapNumber == 1){
+                 inputStream = getClass().getResourceAsStream("/maps/maps_03.txt");
+                 bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            }
+
+
 
             int column = 0;
             int row = 0;
@@ -213,7 +240,10 @@ public class TileManager {
             int tileNumber = mapTileNumber[worldColumn][worldRow];
             worldColumn++;
 
-
+            if (worldX + gamePanel.tileSize > gamePanel.player.worldX - gamePanel.player.screenX &&
+                worldX - gamePanel.tileSize < gamePanel.player.worldX + gamePanel.player.screenX &&
+                worldY + gamePanel.tileSize > gamePanel.player.worldY - gamePanel.player.screenY &&
+                worldY - gamePanel.tileSize < gamePanel.player.worldY + gamePanel.player.screenY )
                 graphics2D.drawImage(tile[tileNumber].image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
 
 
@@ -223,7 +253,12 @@ public class TileManager {
                 worldRow++;
             }
 
+
         }
+
+    }
+    public void changeMap(int mapNumber){
+        this.mapNumber = mapNumber;
     }
 }
 

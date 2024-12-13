@@ -17,6 +17,7 @@ public class Player extends Entity{
     public final int screenY;
     int hasKey = 0;
     public int lives;
+    int enterDoor = 0;
 
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler){
@@ -26,7 +27,7 @@ public class Player extends Entity{
         screenX = gamePanel.screenWidth / 2 - (gamePanel.tileSize / 2);
         screenY = gamePanel.screenHeight / 2 - (gamePanel.tileSize / 2);
 
-        solidArea = new Rectangle(0, 0, 24, 32);
+        solidArea = new Rectangle(0, 0, 24, 24);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
@@ -133,10 +134,27 @@ public class Player extends Entity{
                         gamePanel.playSE(1);
                         gamePanel.object[i] = null;
                         hasKey--;
+                        teleportPlayer(13, 13);
                         System.out.println("Key: " + hasKey);
                     } else {
                         System.out.println("You need a key to open the door!");
                     }
+                    break;
+                case "CEIT Door":
+                    if(enterDoor == 8){
+                        teleportPlayer(9, 44);
+                        enterDoor = 0;
+                    }
+                    System.out.println(enterDoor);
+                    enterDoor++;
+                    break;
+                case "CEIT Door Exit":
+                    if(enterDoor == 8){
+                        teleportPlayer(29, 17);
+                        enterDoor = 0;
+                    }
+                    System.out.println(enterDoor);
+                    enterDoor++;
                     break;
             }
         }
@@ -186,6 +204,11 @@ public class Player extends Entity{
         }
 
         graphics2D.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+    }
+
+    public void teleportPlayer(int x, int y){
+        this.worldX = x * gamePanel.tileSize;
+        this.worldY = y * gamePanel.tileSize;
     }
 }
 
