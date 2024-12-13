@@ -148,6 +148,33 @@ public class TileManager {
             tile[90].image = ImageIO.read(getClass().getResourceAsStream("/tiles/wal1l.png"));
             tile[90].collision = true;
 
+            tile[91] = new Tile();
+            tile[91].image = ImageIO.read(getClass().getResourceAsStream("/tiles/POSTER/POSTER_0_0.png"));
+            tile[91].collision = true;
+
+            tile[92] = new Tile();
+            tile[92].image = ImageIO.read(getClass().getResourceAsStream("/tiles/POSTER/POSTER_0_16.png"));
+            tile[92].collision = true;
+
+            tile[93] = new Tile();
+            tile[93].image = ImageIO.read(getClass().getResourceAsStream("/tiles/skyyy.png"));
+            tile[93].collision = true;
+
+            tile[94] = new Tile();
+            tile[94].image = ImageIO.read(getClass().getResourceAsStream("/tiles/Elevator/Elevator_0_0.png"));
+            tile[94].collision = true;
+
+            tile[95] = new Tile();
+            tile[95].image = ImageIO.read(getClass().getResourceAsStream("/tiles/Elevator/Elevator_0_16.png"));
+            tile[95].collision = true;
+
+            tile[96] = new Tile();
+            tile[96].image = ImageIO.read(getClass().getResourceAsStream("/tiles/Elevator/Elevator_16_0.png"));
+            tile[96].collision = true;
+
+            tile[97] = new Tile();
+            tile[97].image = ImageIO.read(getClass().getResourceAsStream("/tiles/Elevator/Elevator_16_16.png"));
+            tile[97].collision = true;
 // Continue this pattern until you've added all needed chunks...
 
 
