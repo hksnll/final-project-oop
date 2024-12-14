@@ -231,6 +231,47 @@ public class TileManager {
             tile[111] = new Tile();
             tile[111].image = ImageIO.read(getClass().getResourceAsStream("/tiles/COMPUTER LAB BLOCK.png"));
             tile[111].collision = true;
+
+            tile[112] = new Tile();
+            tile[112].image = ImageIO.read(getClass().getResourceAsStream("/tiles/CABA Entrance/CABA Entrance_0_0.png"));
+            tile[112].collision = false;
+
+            tile[113] = new Tile();
+            tile[113].image = ImageIO.read(getClass().getResourceAsStream("/tiles/CABA Entrance/CABA Entrance_0_16.png"));
+            tile[113].collision = false;
+
+            xFile = 0;
+            xNum = 1;
+            yFile = 0;
+            yNum = 1;
+            tileNumber = 114;
+            while(true){
+
+
+                tile[tileNumber] = new Tile();
+                String fileName= "/tiles/COR/COR_"+String.valueOf(yFile)+"_"+String.valueOf(xFile)+".png";
+
+                tile[tileNumber].image = ImageIO.read(getClass().getResourceAsStream( fileName));
+                tile[tileNumber].collision = true;
+
+                System.out.println(fileName);
+                xNum++;
+                xFile+= 16;
+                tileNumber++;
+                if(xNum > 7){
+
+                    yFile+=16;
+                    xNum = 1;
+                    xFile = 0;
+
+                    yNum++;
+
+                }
+                if(yNum > 7){
+
+                    break;
+                }
+            }
 //
 // Continue this pattern until you've added all needed chunks...
 

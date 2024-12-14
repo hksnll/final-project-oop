@@ -24,6 +24,13 @@ public class SuperObject {
 
     }
 
+    public void draw2(Graphics2D graphics2D, GamePanel gamePanel){
+        int screenX = worldX - gamePanel.player.worldX + gamePanel.player.screenX;
+        int screenY = worldY - gamePanel.player.worldY + gamePanel.player.screenY;
+
+        graphics2D.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+    }
+
     public SuperObject(){
 
     }
@@ -40,6 +47,10 @@ public class SuperObject {
     }
     public void setName(String name){
         this.name = name;
+    }
+
+    public void setNum(int i) {
+
     }
 }
 

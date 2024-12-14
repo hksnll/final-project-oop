@@ -12,6 +12,7 @@ public class Sound {
     public Sound(){
         soundURL[0] = getClass().getResource("/sounds/right.wav");
         soundURL[1] = getClass().getResource("/sounds/AMOGUS.wav");
+        soundURL[2] = getClass().getResource("/sounds/converted_audio.wav");
     }
 
     public void setFile(int i){

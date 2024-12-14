@@ -56,6 +56,31 @@ public class AssetSetter {
             gamePanel.object[10].setName("CABA Door");
             gamePanel.object[10].setWorld(15 * gamePanel.tileSize, 17 * gamePanel.tileSize);
 
+            gamePanel.object[14] = new OBJ_Null();
+            gamePanel.object[14].setName("Door Null");
+            gamePanel.object[14].setWorld(23 * gamePanel.tileSize, 11 * gamePanel.tileSize);
+
+
+            if(gamePanel.player.hasScotchTape == true && gamePanel.player.hasCOR1 == true && gamePanel.player.hasCOR2 == false) {
+                gamePanel.object[15] = new OBJ_Student(1);
+                gamePanel.object[15].setName("Student");
+                gamePanel.object[15].setNum(1);
+                gamePanel.object[15].setWorld(22 * gamePanel.tileSize, 13 * gamePanel.tileSize);
+
+                gamePanel.object[16] = new OBJ_Student(2);
+                gamePanel.object[16].setName("Student");
+                gamePanel.object[16].setNum(2);
+                gamePanel.object[16].setWorld(23 * gamePanel.tileSize, 13 * gamePanel.tileSize);
+
+                gamePanel.object[17] = new OBJ_Student(3);
+                gamePanel.object[17].setNum(3);
+                gamePanel.object[17].setName("Student");
+                gamePanel.object[17].setWorld(21 * gamePanel.tileSize, 13 * gamePanel.tileSize);
+
+
+
+            }
+
         } else if (gamePanel.tileManager.mapNumber == 2){
             gamePanel.object[0] = new OBJ_Stairs(1);
             gamePanel.object[0].setName("Stair 2");
@@ -115,10 +140,32 @@ public class AssetSetter {
             }
 
 
+
+
         } else if (gamePanel.tileManager.mapNumber == 1){
             gamePanel.object[0] = new OBJ_Door_CABA(1);
             gamePanel.object[0].setName("CABA Door EXIT");
             gamePanel.object[0].setWorld(31 * gamePanel.tileSize, 6 * gamePanel.tileSize);
+
+            gamePanel.object[1] = new OBJ_Door_Lab(1);
+            gamePanel.object[1].setName("Lab Door");
+            gamePanel.object[1].setWorld(13 * gamePanel.tileSize, 5 * gamePanel.tileSize);
+
+            gamePanel.object[2] = new OBJ_Door_Lab(1);
+            gamePanel.object[2].setName("Lab Door Exit");
+            gamePanel.object[2].setWorld(9 * gamePanel.tileSize, 25 * gamePanel.tileSize);
+
+            gamePanel.object[3] = new OBJ_Temba();
+            gamePanel.object[3].setWorld(15 * gamePanel.tileSize, 5 * gamePanel.tileSize);
+
+            gamePanel.object[4] = new OBJ_Table();
+            gamePanel.object[4].setWorld(22 * gamePanel.tileSize, 23 * gamePanel.tileSize);
+
+            gamePanel.object[5] = new OBJ_Computer();
+            gamePanel.object[5].setWorld(22 * gamePanel.tileSize, 22 * gamePanel.tileSize);
+
+            gamePanel.object[18] = new OBJ_OSA();
+            gamePanel.object[18].setWorld(15 * gamePanel.tileSize, 36 * gamePanel.tileSize);
         }
 
 

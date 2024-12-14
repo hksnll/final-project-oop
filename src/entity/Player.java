@@ -1,31 +1,40 @@
 package entity;
 
+import main.BinaryGame;
 import main.GamePanel;
 import main.KeyHandler;
+import main.PLVQuiz;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Player extends Entity{
 
-    GamePanel gamePanel;
-    KeyHandler keyHandler;
-
     public final int screenX;
     public final int screenY;
-    int hasKey = 0;
     public int lives;
-    int enterRoute = 0;
-    public boolean alarmRing = false;
+    public boolean alarmRing;
     public boolean isAllowed;
     public int trashCount = 0;
-    public boolean hasKey2 = false;
-    public boolean messageShown = false;
-    public boolean hasCOR1 = false;
-    public boolean hasCOR2 = false;
-    public boolean hasScotchTape = false;
+    public boolean hasKey2;
+    public boolean messageShown;
+    public boolean hasCOR1;
+    public boolean hasCOR2;
+    public boolean hasScotchTape;
+    public boolean ending;
+    GamePanel gamePanel;
+    PLVQuiz plvQuiz;
+    KeyHandler keyHandler;
+    BinaryGame binaryGame;
+    Graphics2D graphics2D;
+    int hasKey = 0;
+    int enterRoute = 0;
+    public boolean doneAnswered;
+    public boolean dialogue;
+    int dialougeCounter;
 
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler){
@@ -42,18 +51,29 @@ public class Player extends Entity{
         setDefaultValues();
         getPlayerImage();
 
-        this.lives = 3;
-
-        this.isAllowed = false;
+        binaryGame = new BinaryGame();
+        plvQuiz = new PLVQuiz();
 
     }
 
     public void setDefaultValues(){
         worldX = gamePanel.tileSize * 13;
         worldY = gamePanel.tileSize * 13;
-        speed = 6;
+        speed = 4;
+        lives = 3;
         direction = "down";
-
+        hasKey2 = false;
+        messageShown = false;
+        hasCOR1 = false;
+         hasCOR2 = false;
+        hasScotchTape = false;
+        alarmRing = false;
+        this.lives = 3;
+        doneAnswered = false;
+        this.isAllowed = false;
+        dialogue = false;
+        dialougeCounter = 0;
+        ending = false;
     }
 
     public void getPlayerImage(){
@@ -124,6 +144,8 @@ public class Player extends Entity{
                 }
                 spriteCounter = 0;
             }
+
+
         }
 
 
@@ -209,7 +231,7 @@ public class Player extends Entity{
                 case "CR Exit":
                     if(enterRoute == 8){
 
-                        teleportPlayer(21, 43);
+                        teleportPlayer(21, 44);
                         gamePanel.tileManager.changeMap(0);
                         enterRoute = 0;
                         gamePanel.asssetSetter.removeObject();
@@ -235,6 +257,7 @@ public class Player extends Entity{
                     break;
                 case "Alarm":
                     if(alarmRing == false){
+                        gamePanel.ui.showMessage("I’ve triggered the alarm, the guard must leave immediately.");
                         gamePanel.playSE(1);
                         setAllowed();
                         alarmRing = true;
@@ -244,7 +267,7 @@ public class Player extends Entity{
                 case "Trash":
                     if(trashCount < 160){
                         gamePanel.ui.showMessage("Looks like there is something" +
-                                "in here...");
+                                " in here...");
 
                     } else {
                         gamePanel.ui.showMessage("You've got a key!");
@@ -255,7 +278,7 @@ public class Player extends Entity{
                 case "Electro Exit":
                     if(enterRoute == 8){
 
-                        teleportPlayer(17, 8);
+                        teleportPlayer(16, 6);
                         enterRoute = 0;
 
                         break;
@@ -263,11 +286,11 @@ public class Player extends Entity{
                     enterRoute++;
                     break;
                 case "Elevator Null":
-                    gamePanel.ui.showMessage("This elevator is under maintenance …");
+                    gamePanel.ui.showMessage("This elevator is under maintenance…");
                     break;
                 case "DJ Help":
                     if (hasKey2 == false){
-                            gamePanel.ui.showMessage("Hello, can I ask for help? This door is locked." + "I kinda forgot where I hid the key.");
+                            gamePanel.ui.showMessage("Hello, can I ask for help? This door is locked." + " I kinda forgot where I hid the key.");
 
                     } else {
                         gamePanel.ui.showMessage(
@@ -281,6 +304,7 @@ public class Player extends Entity{
                     break;
                 case "Chest":
                     gamePanel.ui.showMessage("You found a Scotch Tape inside Chest!");
+
                     gamePanel.object[i] = null;
                     hasScotchTape = true;
                     break;
@@ -306,8 +330,105 @@ public class Player extends Entity{
                         enterRoute = 0;
                         break;
                     }
+                    if(hasCOR1 == true && dialogue == false){
+                        dialogue = true;
+                        gamePanel.ui.showMessage("Finally, a piece of COR. Now to find the last one. Where could Francis have put it?");
+                    }
                     enterRoute++;
                     break;
+                case "Lab Door":
+                    if(enterRoute == 8){
+                        teleportPlayer(9,24);
+                        enterRoute = 0;
+                        break;
+                    } enterRoute++;
+                    break;
+                case "Lab Door Exit":
+                    if(enterRoute == 8){
+                        teleportPlayer(13,6);
+                        enterRoute = 0;
+                        break;
+                    } enterRoute++;
+                    break;
+                case "Temba":
+                    if (doneAnswered == false) {
+                        gamePanel.ui.showMessage("I’ll give you a chance to finish your task without me chasing you. First, head to the Computer Laboratory.");
+                    } else {
+                        hasCOR1 = true;
+                        gamePanel.ui.showMessage("You’ve finished your task? Good. That’s exactly what I expected.      Received a piece of COR.");
+                        gamePanel.object[i] = null;
+                    }
+                    break;
+                case "Computer":
+                    teleportPlayer(21,23);
+                    binaryGame.createAndShowGUI();
+                    while (!binaryGame.isGameFinished()) {
+                        System.out.println(binaryGame.isGameFinished());
+                        // Wait until the game ends
+                    }
+                    int totalScore = binaryGame.totalScore;
+                    if (totalScore < 3) {
+                        this.lives--;
+                    }
+                    doneAnswered = true;
+                    gamePanel.object[i] = null;
+                    break;
+                case "Door Null":
+                    if(hasCOR1 == true && hasCOR2 == true && hasScotchTape == true){
+                        if(enterRoute == 8){
+
+                            teleportPlayer(15, 39);
+                            gamePanel.tileManager.changeMap(1);
+                            gamePanel.asssetSetter.removeObject();
+                            gamePanel.asssetSetter.setObject();
+                            enterRoute = 0;
+                            break;
+                        }
+                        enterRoute++;
+                        break;
+                    } else {
+                        gamePanel.ui.showMessage("You cannot enter until you have the items needed: 2 pieces of COR, Scotchtape");
+                        break;
+                    }
+
+                case "Student":
+
+                        if (dialougeCounter == 0){
+                            gamePanel.ui.showMessage("Looks like you've completed all the tasks. Well done!");
+                        } if (dialougeCounter > 150){
+                            gamePanel.ui.showMessage("This isn’t the end. Here’s the final challenge to get what you need.");
+                        } if (dialougeCounter == 300){
+
+                            plvQuiz.run();
+                            while (!plvQuiz.isFinished()){
+                                System.out.println(plvQuiz.isFinished);
+
+                            }
+
+                            gamePanel.object[17] = null;
+                            gamePanel.object[16] = null;
+                            gamePanel.object[15] = null;
+                            gamePanel.ui.showMessage("Nice try, Jemy! Here your prize for trying! Received another piece of COR.");
+
+                            hasCOR2 = true;
+                            if(plvQuiz.isFailed){
+                                lives--;
+                            }
+                            break;
+
+
+                        }
+                        dialougeCounter++;
+                        break;
+                case "OSA":
+                    gamePanel.ui.showMessage("Congratulations, here's the new printed COR.");
+                    gamePanel.playSE(2);
+                    gamePanel.object[i] = null;
+                    this.ending = true;
+                    break;
+
+
+
 
             }
         }

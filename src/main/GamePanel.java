@@ -42,6 +42,7 @@ public class GamePanel extends JPanel implements Runnable {
     Sound soundEffect = new Sound();
     Sound music = new Sound();
     public UI ui = new UI(this, player);
+    Main main = new Main();
 
 
     public SuperObject object[] = new SuperObject[20];
@@ -129,6 +130,32 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public void update(){
+        if(player.lives == 0){
+            stopMusic();
+            gameThread = null;
+            int option = JOptionPane.showOptionDialog(
+                    null,
+                    "Game Over! What would you like to do?",
+                    "Game Over",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new String[]{"Try Again", "Exit"},
+                    "Try Again"
+            );
+
+            // Handle the user's choice
+            if (option == JOptionPane.YES_OPTION) {
+                // Restart the game (reset player lives, etc.)
+                gameThread = null;
+                SwingUtilities.getWindowAncestor(this).dispose();
+                stopMusic();
+                main.main(new String[]{});
+            } else if (option == JOptionPane.NO_OPTION) {
+                // Exit the game
+                System.exit(0);
+            }
+        }
         player.update();
 
     }
@@ -147,9 +174,11 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
 
+
         player.draw(graphics2D);
 
         ui.draw(graphics2D, player);
+
         graphics2D.dispose();
     }
 
@@ -168,5 +197,10 @@ public class GamePanel extends JPanel implements Runnable {
     public void changeWorldSize(int column, int row){
         this.maxWorldColumn = column;
 
+    }
+    public void resetGame() {
+        gameThread = null; // Ensure the game thread stops properly
+        setupGame(); // Reinitialize game variables, player state, etc.
+        startGameThread(); // Restart the game thread
     }
 }
