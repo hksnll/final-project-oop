@@ -2,6 +2,8 @@ package main;
 
 import entity.Player;
 import object.OBJ_Heart;
+import object.OBJ_Key;
+import object.OBJ_Scotch;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,9 +16,13 @@ public class UI {
     OBJ_Heart heart = new OBJ_Heart();
     OBJ_Heart heart2 = new OBJ_Heart();
     OBJ_Heart heart3 = new OBJ_Heart();
+    OBJ_Scotch scotch = new OBJ_Scotch();
+    OBJ_Key key = new OBJ_Key();
     BufferedImage heartImage;
     BufferedImage heartImage2;
     BufferedImage heartImage3;
+    BufferedImage scotchImage;
+    BufferedImage keyImage;
 
     public boolean messageOn = false;
     public String message = "";
@@ -26,7 +32,7 @@ public class UI {
         this.gamePanel = gamePanel;
 
 
-        arial_40 = new Font("Arial", Font.BOLD, 30);
+        arial_40 = new Font("Arial", Font.BOLD, 5);
 
     }
 
@@ -38,7 +44,7 @@ public class UI {
 
 
         graphics2D.setFont(arial_40);
-        graphics2D.setColor(Color.GREEN);
+        graphics2D.setColor(Color.pink);
 
         if (player.lives == 2){
             heart3.setLife(false);
@@ -55,6 +61,17 @@ public class UI {
         heartImage = heart.image;
         heartImage2 = heart2.image;
         heartImage3 = heart3.image;
+        scotchImage = scotch.image;
+        keyImage = key.image;
+
+
+
+        if(player.hasScotchTape == true){
+            graphics2D.drawImage(this.scotch.image, 190, 25, gamePanel.tileSize, gamePanel.tileSize, null);
+        }
+        if(player.hasKey2 == true){
+            graphics2D.drawImage(this.key.image, 245, 25, gamePanel.tileSize, gamePanel.tileSize, null);
+        }
 
 
         graphics2D.drawImage(this.heart.image, 25, 25, gamePanel.tileSize, gamePanel.tileSize, null);
@@ -63,7 +80,7 @@ public class UI {
 
 
         if(messageOn== true){
-            graphics2D.setFont(graphics2D.getFont().deriveFont(30F));
+            graphics2D.setFont(graphics2D.getFont().deriveFont(15F));
             graphics2D.drawString(message, gamePanel.tileSize/2, gamePanel.tileSize*5);
             messageCounter++;
 

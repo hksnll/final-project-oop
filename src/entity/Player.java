@@ -22,6 +22,10 @@ public class Player extends Entity{
     public boolean isAllowed;
     public int trashCount = 0;
     public boolean hasKey2 = false;
+    public boolean messageShown = false;
+    public boolean hasCOR1 = false;
+    public boolean hasCOR2 = false;
+    public boolean hasScotchTape = false;
 
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler){
@@ -47,7 +51,7 @@ public class Player extends Entity{
     public void setDefaultValues(){
         worldX = gamePanel.tileSize * 13;
         worldY = gamePanel.tileSize * 13;
-        speed = 4;
+        speed = 6;
         direction = "down";
 
     }
@@ -180,6 +184,7 @@ public class Player extends Entity{
                         gamePanel.tileManager.changeMap(0);
                         gamePanel.asssetSetter.removeObject();
                         gamePanel.asssetSetter.setObject();
+                        enterRoute = 0;
 
                     }
                     enterRoute++;
@@ -187,7 +192,7 @@ public class Player extends Entity{
                 case "CR":
                     if (isAllowed == true) {
                         if(enterRoute > 8){
-
+                            trashCount = 0;
                             teleportPlayer(9, 25);
                             gamePanel.tileManager.changeMap(2);
                             enterRoute = 0;
@@ -204,7 +209,7 @@ public class Player extends Entity{
                 case "CR Exit":
                     if(enterRoute == 8){
 
-                        teleportPlayer(21, 44);
+                        teleportPlayer(21, 43);
                         gamePanel.tileManager.changeMap(0);
                         enterRoute = 0;
                         gamePanel.asssetSetter.removeObject();
@@ -215,14 +220,18 @@ public class Player extends Entity{
                     enterRoute++;
                     break;
                 case "Electro Entrance":
-                    if(enterRoute == 8){
+                    if ( hasKey2 ) {
+                        if(enterRoute == 8){
 
-                        teleportPlayer(9, 41);
-                        enterRoute = 0;
+                            teleportPlayer(9, 41);
+                            enterRoute = 0;
 
-                        break;
+                            break;
+                        }enterRoute++;
+                    } else {
+                        gamePanel.ui.showMessage("The door is locked!");
                     }
-                    enterRoute++;
+
                     break;
                 case "Alarm":
                     if(alarmRing == false){
@@ -240,6 +249,7 @@ public class Player extends Entity{
                     } else {
                         gamePanel.ui.showMessage("You've got a key!");
                         hasKey2 = true;
+
                     } trashCount++;
                     break;
                 case "Electro Exit":
@@ -252,6 +262,53 @@ public class Player extends Entity{
                     }
                     enterRoute++;
                     break;
+                case "Elevator Null":
+                    gamePanel.ui.showMessage("This elevator is under maintenance …");
+                    break;
+                case "DJ Help":
+                    if (hasKey2 == false){
+                            gamePanel.ui.showMessage("Hello, can I ask for help? This door is locked." + "I kinda forgot where I hid the key.");
+
+                    } else {
+                        gamePanel.ui.showMessage(
+                                "Great job! Careful—there’s a trap inside. Enter if you dare!");
+
+                    } break;
+                case "Fake Chest":
+                    this.lives--;
+                    gamePanel.ui.showMessage("Ouch! That was a trap!");
+                    gamePanel.object[i] = null;
+                    break;
+                case "Chest":
+                    gamePanel.ui.showMessage("You found a Scotch Tape inside Chest!");
+                    gamePanel.object[i] = null;
+                    hasScotchTape = true;
+                    break;
+                case "CABA Door":
+                    if(enterRoute == 8){
+
+                        teleportPlayer(30, 6);
+                        gamePanel.tileManager.changeMap(1);
+                        gamePanel.asssetSetter.removeObject();
+                        gamePanel.asssetSetter.setObject();
+                        enterRoute = 0;
+                        break;
+                    }
+                    enterRoute++;
+                    break;
+                case "CABA Door EXIT":
+                    if(enterRoute == 8){
+
+                        teleportPlayer(16, 17);
+                        gamePanel.tileManager.changeMap(0);
+                        gamePanel.asssetSetter.removeObject();
+                        gamePanel.asssetSetter.setObject();
+                        enterRoute = 0;
+                        break;
+                    }
+                    enterRoute++;
+                    break;
+
             }
         }
 

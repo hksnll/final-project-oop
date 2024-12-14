@@ -223,6 +223,15 @@ public class TileManager {
             tile[109] = new Tile();
             tile[109].image = ImageIO.read(getClass().getResourceAsStream("/tiles/MAZE BLOCK.png"));
             tile[109].collision = true;
+
+            tile[110] = new Tile();
+            tile[110].image = ImageIO.read(getClass().getResourceAsStream("/tiles/ELECTRO DOOR/ELECTRO DOOR_0_0.png"));
+            tile[110].collision = true;
+
+            tile[111] = new Tile();
+            tile[111].image = ImageIO.read(getClass().getResourceAsStream("/tiles/COMPUTER LAB BLOCK.png"));
+            tile[111].collision = true;
+//
 // Continue this pattern until you've added all needed chunks...
 
 
@@ -244,10 +253,13 @@ public class TileManager {
                  inputStream = getClass().getResourceAsStream("/maps/modified_grid.txt");
                  bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             } else if (mapNumber == 1){
-                inputStream = getClass().getResourceAsStream("/maps/maps2.txt");
+                inputStream = getClass().getResourceAsStream("/maps/map3.txt");
                 bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             } else if (mapNumber == 2){
                 inputStream = getClass().getResourceAsStream("/maps/map2.txt");
+                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            } else if (mapNumber == 3){
+                inputStream = getClass().getResourceAsStream("/maps/map3.txt");
                 bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             }
             System.out.println(mapNumber);
